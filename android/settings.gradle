@@ -1,0 +1,3 @@
+rootProject.name = 'RNGmap'
+
+include ':app'
