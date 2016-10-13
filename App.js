@@ -1,13 +1,14 @@
 import React from 'react';
 import {
+  AppRegistry,
   StyleSheet,
   View,
   Text,
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+
 import MapView from 'react-native-maps';
-import PriceMarker from './PriceMarker';
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,8 +17,13 @@ const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+let id = 0;
 
-class ViewsAsMarkers extends React.Component {
+function randomColor() {
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+}
+
+export default class DefaultMarkers extends React.Component {
   constructor(props) {
     super(props);
 
@@ -28,20 +34,21 @@ class ViewsAsMarkers extends React.Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
-      coordinate: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-      },
-      amount: 99,
+      markers: [],
     };
   }
 
-  increment() {
-    this.setState({ amount: this.state.amount + 1 });
-  }
-
-  decrement() {
-    this.setState({ amount: this.state.amount - 1 });
+  onMapPress(e) {
+    this.setState({
+      markers: [
+        ...this.state.markers,
+        {
+          coordinate: e.nativeEvent.coordinate,
+          key: id++,
+          color: randomColor(),
+        },
+      ],
+    });
   }
 
   render() {
@@ -51,33 +58,28 @@ class ViewsAsMarkers extends React.Component {
           provider={this.props.provider}
           style={styles.map}
           initialRegion={this.state.region}
+          onPress={(e) => this.onMapPress(e)}
         >
-          <MapView.Marker coordinate={this.state.coordinate}>
-            <PriceMarker amount={this.state.amount} />
-          </MapView.Marker>
+          {this.state.markers.map(marker => (
+            <MapView.Marker
+              key={marker.key}
+              coordinate={marker.coordinate}
+              pinColor={marker.color}
+            />
+          ))}
         </MapView>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={() => this.decrement()}
-            style={[styles.bubble, styles.button]}
+            onPress={() => this.setState({ markers: [] })}
+            style={styles.bubble}
           >
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>-</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.increment()}
-            style={[styles.bubble, styles.button]}
-          >
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>+</Text>
+            <Text>Tap to create a marker of random color</Text>
           </TouchableOpacity>
         </View>
       </View>
     );
   }
 }
-
-ViewsAsMarkers.propTypes = {
-  provider: MapView.ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -111,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = ViewsAsMarkers;
+// module.exports = DefaultMarkers;

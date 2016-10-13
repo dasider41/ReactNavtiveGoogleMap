@@ -1,11 +1,11 @@
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import ViewsAsMarkers from './App';
+import App from './App';
 
-class AirMapsExplorer extends React.Component {
+class RNGmap extends React.Component {
   render() {
-    return <ViewsAsMarkers />;
+    return <App />;
   }
 }
 
-AppRegistry.registerComponent('AirMapsExplorer', () => AirMapsExplorer);
+AppRegistry.registerComponent('RNGmap', () => RNGmap);
