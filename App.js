@@ -10,6 +10,8 @@ import {
 
 import MapView from 'react-native-maps';
 
+const schoolJsonData = require('./school.json');
+
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
@@ -19,33 +21,19 @@ const LATITUDE_DELTA = 0.122;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
-export default class DefaultMarkers extends React.Component {
-    constructor(props) {
-      super(props);
+function getLangLati(object) {
+  return ({
+    "latitude" : Number(object.latitude),
+    "longitude" : Number(object.longitude)
+  });
+}
 
-      this.state = {
-        a: {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE + SPACE,
-        },
-        b: {
-          latitude: LATITUDE - SPACE,
-          longitude: LONGITUDE - SPACE,
-        },
-        c: {
-          latitude: LATITUDE - (SPACE * 2),
-          longitude: LONGITUDE - (SPACE * 2),
-        },
-        d: {
-          latitude: LATITUDE - (SPACE * 3),
-          longitude: LONGITUDE - (SPACE * 3),
-        },
-        e: {
-          latitude: LATITUDE - (SPACE * 4),
-          longitude: LONGITUDE - (SPACE * 4),
-        },
-      };
-    }
+export default class DefaultMarkers extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = schoolJsonData;
+  }
 
   render() {
     return (
@@ -60,29 +48,20 @@ export default class DefaultMarkers extends React.Component {
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA,
               }}
-            >
-              <MapView.Marker
-                identifier="Marker1"
-                coordinate={this.state.a}
-              />
-              <MapView.Marker
-                identifier="Marker2"
-                coordinate={this.state.b}
-              />
-              <MapView.Marker
-                identifier="Marker3"
-                coordinate={this.state.c}
-              />
-              <MapView.Marker
-                identifier="Marker4"
-                coordinate={this.state.d}
-              />
-              <MapView.Marker
-                identifier="Marker5"
-                coordinate={this.state.e}
-              />
-            </MapView>
-          </View>
+              >
+            {this.state.schools.map((school) => {
+              return  (
+                <MapView.Marker
+                  key={school.schoolId}
+                  title={school.name}
+                  description={school.name}
+                  coordinate={getLangLati(school)}
+                >
+                </MapView.Marker>
+              );
+            })}
+          </MapView>
+      </View>
     );
   }
 }
