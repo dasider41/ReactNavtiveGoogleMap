@@ -10,8 +10,6 @@ import {
 
 import MapView from 'react-native-maps';
 
-const schoolJsonData = require('./school.json');
-
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
@@ -19,20 +17,58 @@ const LATITUDE = -36.848461;
 const LONGITUDE = 174.763336;
 const LATITUDE_DELTA = 0.122;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const SPACE = 0.01;
+const REGION = {
+  latitude: LATITUDE,
+  longitude: LONGITUDE,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
+}
+
+const jsonData = require('./school.json');
+const jsonDataSchool = jsonData.schools;
+
+function getBoundByRegion(object, center) {
+  const langLat = getLangLati(object);
+  return ( langLat.latitude >= (center.latitude - (center.latitudeDelta / 2) ) &&
+    langLat.latitude <= (center.latitude + (center.latitudeDelta / 2)) &&
+    langLat.longitude >= (center.longitude - (center.longitudeDelta / 2)) &&
+    langLat.longitude <= (center.longitude + (center.longitudeDelta / 2) )) ? true : false;
+}
 
 function getLangLati(object) {
   return ({
-    "latitude" : Number(object.latitude),
-    "longitude" : Number(object.longitude)
+    latitude : Number(object.latitude),
+    longitude : Number(object.longitude)
   });
 }
 
-export default class DefaultMarkers extends React.Component {
+export default class DisplaySchools extends React.Component {
+
   constructor(props) {
     super(props);
+    this.state = {
+      region : REGION,
+      schools : [],
+      events: [],
+     };
+  }
 
-    this.state = schoolJsonData;
+  reDrawMarks() {
+    return e => {
+      const events = JSON.stringify(e, null, 2);
+      const newRegion = {
+        latitude: e.latitude,
+        longitude: e.longitude,
+        latitudeDelta: e.latitudeDelta,
+        longitudeDelta: e.longitudeDelta,
+      };
+      this.setState({
+        schools: jsonDataSchool.filter((school) => {
+          return getBoundByRegion(school, newRegion);
+        }),
+        events: events
+      });
+    }
   }
 
   render() {
@@ -42,12 +78,8 @@ export default class DefaultMarkers extends React.Component {
               provider={this.props.provider}
               ref={ref => { this.map = ref; }}
               style={styles.map}
-              initialRegion={{
-                latitude: LATITUDE,
-                longitude: LONGITUDE,
-                latitudeDelta: LATITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA,
-              }}
+              onRegionChangeComplete={this.reDrawMarks()}
+              initialRegion={this.state.region}
               >
             {this.state.schools.map((school) => {
               return  (
@@ -61,6 +93,11 @@ export default class DefaultMarkers extends React.Component {
               );
             })}
           </MapView>
+          <View style={styles.events}>
+            <Text>
+              {this.state.events}
+            </Text>
+          </View>
       </View>
     );
   }
@@ -75,6 +112,14 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  events: {
+    position: 'absolute',
+    top: height / 1.5,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+
   // bubble: {
   //   backgroundColor: 'rgba(255,255,255,0.7)',
   //   paddingHorizontal: 18,
@@ -97,5 +142,3 @@ const styles = StyleSheet.create({
   //   backgroundColor: 'transparent',
   // },
 });
-
-// module.exports = DefaultMarkers;
