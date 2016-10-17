@@ -9,14 +9,16 @@ import {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
+import CustomMarker from './component/CustomMarker';
 
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
 const LATITUDE = -36.848461;
 const LONGITUDE = 174.763336;
-const LATITUDE_DELTA = 0.122;
+const LATITUDE_DELTA = 0.050;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const MIN_LONGITUDE_DELTA = 0.25;
 const REGION = {
   latitude: LATITUDE,
   longitude: LONGITUDE,
@@ -32,7 +34,9 @@ function getBoundByRegion(object, center) {
   return ( langLat.latitude >= (center.latitude - (center.latitudeDelta / 2) ) &&
     langLat.latitude <= (center.latitude + (center.latitudeDelta / 2)) &&
     langLat.longitude >= (center.longitude - (center.longitudeDelta / 2)) &&
-    langLat.longitude <= (center.longitude + (center.longitudeDelta / 2) )) ? true : false;
+    langLat.longitude <= (center.longitude + (center.longitudeDelta / 2)) &&
+    center.latitudeDelta <= MIN_LONGITUDE_DELTA
+  ) ? true : false;
 }
 
 function getLangLati(object) {
@@ -89,6 +93,7 @@ export default class DisplaySchools extends React.Component {
                   description={school.name}
                   coordinate={getLangLati(school)}
                 >
+                  <CustomMarker name={school.name} />
                 </MapView.Marker>
               );
             })}
