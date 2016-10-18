@@ -54,6 +54,7 @@ export default class DisplaySchools extends React.Component {
       region : REGION,
       schools : [],
       events: [],
+      selectedMarker: []
      };
   }
 
@@ -90,6 +91,7 @@ export default class DisplaySchools extends React.Component {
                 <MapView.Marker
                   key={school.schoolId}
                   title={school.name}
+                  onPress={() => {this.setState({selectedMarker: school.schoolId})}}
                   description={school.name}
                   coordinate={getLangLati(school)}
                 >
@@ -103,6 +105,14 @@ export default class DisplaySchools extends React.Component {
               {this.state.events}
             </Text>
           </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.bubble}
+            >
+              <Text>View {this.state.selectedMarker}</Text>
+            </TouchableOpacity>
+          </View>
+
       </View>
     );
   }
@@ -125,25 +135,16 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 
-  // bubble: {
-  //   backgroundColor: 'rgba(255,255,255,0.7)',
-  //   paddingHorizontal: 18,
-  //   paddingVertical: 12,
-  //   borderRadius: 20,
-  // },
-  // latlng: {
-  //   width: 200,
-  //   alignItems: 'stretch',
-  // },
-  // button: {
-  //   width: 80,
-  //   paddingHorizontal: 12,
-  //   alignItems: 'center',
-  //   marginHorizontal: 10,
-  // },
-  // buttonContainer: {
-  //   flexDirection: 'row',
-  //   marginVertical: 20,
-  //   backgroundColor: 'transparent',
-  // },
+  bubble: {
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+  },
 });
