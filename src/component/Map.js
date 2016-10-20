@@ -8,7 +8,9 @@ import {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
-import CustomMarker from '../component/CustomMarker';
+
+import CustomMarker from './CustomMarker';
+import ViewDetail from './ViewDetail';
 
 const { width, height } = Dimensions.get('window');
 
@@ -76,6 +78,16 @@ export default class DisplaySchools extends React.Component {
     }
   }
 
+  viewDetail(schoolId){
+    this.props.navigator.push({
+      title: "Detail",
+      index: 1,
+      display: true,
+      component: ViewDetail,
+      schooId: schoolId
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -104,6 +116,14 @@ export default class DisplaySchools extends React.Component {
               {this.state.events}
             </Text>
           </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.bubble} onPress={()=> this.viewDetail(this.state.selectedMarker)}
+            >
+              <Text>View {this.state.selectedMarker}</Text>
+            </TouchableOpacity>
+          </View>
+
       </View>
     );
   }
