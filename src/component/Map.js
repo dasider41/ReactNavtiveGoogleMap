@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   View,
   Text,
@@ -9,7 +8,7 @@ import {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
-import CustomMarker from './component/CustomMarker';
+import CustomMarker from '../component/CustomMarker';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,6 +18,7 @@ const LONGITUDE = 174.763336;
 const LATITUDE_DELTA = 0.050;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const MIN_LONGITUDE_DELTA = 0.25;
+
 const REGION = {
   latitude: LATITUDE,
   longitude: LONGITUDE,
@@ -26,7 +26,7 @@ const REGION = {
   longitudeDelta: LONGITUDE_DELTA,
 }
 
-const jsonData = require('./school.json');
+const jsonData = require('../data/school.json');
 const jsonDataSchool = jsonData.schools;
 
 function getBoundByRegion(object, center) {
@@ -91,8 +91,7 @@ export default class DisplaySchools extends React.Component {
                 <MapView.Marker
                   key={school.schoolId}
                   title={school.name}
-                  onPress={() => {this.setState({selectedMarker: school.schoolId})}}
-                  description={school.name}
+                  onPress={ () => {this.setState({selectedMarker: school.schoolId})}}
                   coordinate={getLangLati(school)}
                 >
                   <CustomMarker name={school.name} />
@@ -105,14 +104,6 @@ export default class DisplaySchools extends React.Component {
               {this.state.events}
             </Text>
           </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.bubble}
-            >
-              <Text>View {this.state.selectedMarker}</Text>
-            </TouchableOpacity>
-          </View>
-
       </View>
     );
   }
