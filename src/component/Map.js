@@ -29,7 +29,7 @@ const REGION = {
 }
 
 const jsonData = require('../data/school.json');
-const jsonDataSchool = jsonData.schools;
+const jsonDataSchool = jsonData;
 
 function getBoundByRegion(object, center) {
   const langLat = getLangLati(object);
@@ -55,7 +55,7 @@ export default class DisplaySchools extends React.Component {
     this.state = {
       region : REGION,
       schools : [],
-      events: [],
+      events: JSON.stringify(jsonDataSchool, null, 2),
       selectedMarker: []
      };
   }
