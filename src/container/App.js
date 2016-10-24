@@ -39,7 +39,7 @@ export default class App extends React.Component{
           return <TouchableOpacity
             underlayColor='transparent'
             onPress={() => {if (index > 0) {navigator.pop()}}}>
-            <Text style={styles.navBackBtn}> back</Text>
+            <Text style={styles.navBackBtn}> Back </Text>
           </TouchableOpacity>;
         }else{
           return null;
@@ -65,7 +65,7 @@ export default class App extends React.Component{
           return <route.component
             navigator={navigator}
             title={route.title}
-            schooId={route.schooId}
+            school={route.school}
             index={route.index} />
         }}
         navigationBar={

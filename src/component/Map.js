@@ -28,8 +28,7 @@ const REGION = {
   longitudeDelta: LONGITUDE_DELTA,
 }
 
-const jsonData = require('../data/school.json');
-const jsonDataSchool = jsonData;
+const jsonDataSchool = require('../data/school.json');
 
 function getBoundByRegion(object, center) {
   const langLat = getLangLati(object);
@@ -79,13 +78,19 @@ export default class DisplaySchools extends React.Component {
   }
 
   viewDetail(schoolId){
-    this.props.navigator.push({
-      title: "Detail",
-      index: 1,
-      display: true,
-      component: ViewDetail,
-      schooId: schoolId
-    })
+    if(schoolId > 0) {
+      const school = jsonDataSchool.filter((schoolObject) => {
+          return (schoolObject.schoolId === schoolId) ? true : false;
+      });
+
+      this.props.navigator.push({
+        title: schoolId + '. ' + school[0].name,
+        index: schoolId,
+        display: true,
+        component: ViewDetail,
+        school: school[0]
+      });
+    }
   }
 
   render() {
@@ -111,16 +116,12 @@ export default class DisplaySchools extends React.Component {
               );
             })}
           </MapView>
-          <View style={styles.events}>
-            <Text>
-              {this.state.events}
-            </Text>
-          </View>
+
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.bubble} onPress={()=> this.viewDetail(this.state.selectedMarker)}
             >
-              <Text>View {this.state.selectedMarker}</Text>
+              <Text>Detail</Text>
             </TouchableOpacity>
           </View>
 
