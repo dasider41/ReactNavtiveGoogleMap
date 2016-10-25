@@ -1,4 +1,4 @@
-# RNGmap
+# ReactNavtiveGoogleMap
 
 Personal RN project with [react-native-maps](https://github.com/airbnb/react-native-maps) and [New Zealand Education Counts](educationcounts.govt.nz) for Android. The project is on going.
 
