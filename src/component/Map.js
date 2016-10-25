@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Dimensions,
+  ToastAndroid,
   TouchableOpacity,
 } from 'react-native';
 
@@ -90,6 +91,8 @@ export default class DisplaySchools extends React.Component {
         component: ViewDetail,
         school: school[0]
       });
+    }else{
+      ToastAndroid.show("Please select a school", ToastAndroid.SHORT)
     }
   }
 
@@ -108,7 +111,8 @@ export default class DisplaySchools extends React.Component {
                 <MapView.Marker
                   key={school.schoolId}
                   title={school.name}
-                  onPress={ () => {this.setState({selectedMarker: school.schoolId})}}
+                  onPress={ () =>
+                    {this.setState({selectedMarker: school.schoolId})}}
                   coordinate={getLangLati(school)}
                 >
                   <CustomMarker name={school.name} />
@@ -119,7 +123,9 @@ export default class DisplaySchools extends React.Component {
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              style={styles.bubble} onPress={()=> this.viewDetail(this.state.selectedMarker)}
+              style={styles.bubble}
+              onPress={()=>
+                this.viewDetail(this.state.selectedMarker)}
             >
               <Text>Detail</Text>
             </TouchableOpacity>

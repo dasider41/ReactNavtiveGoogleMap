@@ -4,7 +4,6 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 
 export default class ViewDetail extends React.Component {
