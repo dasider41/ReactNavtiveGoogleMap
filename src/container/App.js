@@ -59,13 +59,19 @@ export default class App extends React.Component{
   };
 
   componentDidMount() {
-    BackAndroid.addEventListener('hardwareBackPress', () => {
-      if (navigator && navigator.getCurrentRoutes().length > 0) {
-          navigator.pop();
-          return true;
-      }
-      return false;
-    });
+    BackAndroid.addEventListener('hardwareBackPress', () => this.handleBackButton());
+  }
+
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress', () => this.handleBackButton());
+  }
+
+  handleBackButton() {
+    if (navigator && navigator.getCurrentRoutes().length > 1) {
+        navigator.pop();
+        return true;
+    }
+    return false;
   }
 
   render(){
