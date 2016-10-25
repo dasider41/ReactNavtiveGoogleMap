@@ -21,7 +21,7 @@ The generated APK can be found under `./android/app/build/outputs/apk/app-releas
 
 * ~~Init with react-native-maps~~
 * Google location search bar
-* Create API
-* Add filter and show details
-* UI design and slide menu
+* ~~Create API~~
+* Add filter and ~~show details~~
+* Material UI design and slide menu
 * ios version (when I buy a Mac.)
