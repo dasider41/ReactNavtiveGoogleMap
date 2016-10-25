@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
+  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 
@@ -18,7 +19,7 @@ export default class ViewDetail extends React.Component {
   render () {
     const { school } = this.props;
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.cols}>Name : {school.name}</Text>
         <Text style={styles.cols}>Phone : {school.telephone} / Fax {school.fax}</Text>
         <Text style={styles.cols}>Email : {school.email}</Text>
@@ -42,7 +43,7 @@ export default class ViewDetail extends React.Component {
         <Text style={styles.cols}>
           International Students : {this.getStudentStatus(school.total,school.international)}
         </Text>
-      </View>
+      </ScrollView>
     );
   }
 }
