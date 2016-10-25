@@ -6,10 +6,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableHighlight,
-  PixelRatio,
+  BackAndroid,
 } from 'react-native';
 
 import Map from '../component/Map';
+
+let navigator;
 
 class NavigationBar extends Navigator.NavigationBar {
   render() {
@@ -34,22 +36,37 @@ export default class App extends React.Component{
 
   routeMapper = {
     LeftButton: (route, navigator, index, navState) =>
-      {
-        if(route.index > 0) {
-          return <TouchableOpacity
-            underlayColor='transparent'
-            onPress={() => {if (index > 0) {navigator.pop()}}}>
-            <Text style={styles.navBackBtn}> Back </Text>
-          </TouchableOpacity>;
-        }else{
-          return null;
-        }
-      },
+      // {
+      //   if(route.index > 0) {
+      //     return <TouchableOpacity
+      //       underlayColor='transparent'
+      //       onPress={() => {if (index > 0) {navigator.pop()}}}>
+      //       <Text style={styles.navBackBtn}> Back </Text>
+      //     </TouchableOpacity>;
+      //   }else{
+      //     return null;
+      //   }
+      // },
+      { return null; },
     RightButton: (route, navigator, index, navState) =>
       { return null; },
     Title: (route, navigator, index, navState) =>
-      { return (<Text style={styles.navTitle}>{route.title}</Text>); },
+      {
+        return (
+           <Text style={styles.navTitle}>{route.title}</Text>
+        );
+      },
   };
+
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      if (navigator && navigator.getCurrentRoutes().length > 0) {
+          navigator.pop();
+          return true;
+      }
+      return false;
+    });
+  }
 
   render(){
     return (
@@ -60,6 +77,7 @@ export default class App extends React.Component{
           display: true,
           component: Map,
         }}
+        ref={(nav) => { navigator = nav; }}
         configureScene={this.configureScene}
         renderScene={(route, navigator) => {
           return <route.component
