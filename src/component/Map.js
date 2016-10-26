@@ -86,7 +86,7 @@ export default class DisplaySchools extends React.Component {
 
       this.props.navigator.push({
         title: schoolId + '. ' + school[0].name,
-        index: schoolId,
+        index: 1,
         display: true,
         component: ViewDetail,
         school: school[0]
@@ -127,7 +127,7 @@ export default class DisplaySchools extends React.Component {
               onPress={()=>
                 this.viewDetail(this.state.selectedMarker)}
             >
-              <Text>Detail</Text>
+              <Text style={styles.bubbleTitle}>Detail</Text>
             </TouchableOpacity>
           </View>
 
@@ -153,16 +153,21 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 
-  bubble: {
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 20,
-  },
-
   buttonContainer: {
     flexDirection: 'row',
     marginVertical: 20,
     backgroundColor: 'transparent',
   },
+
+  bubble: {
+    backgroundColor: 'rgba(79, 142, 247,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+
+  bubbleTitle: {
+    color: '#ffffff'
+  }
+
 });
