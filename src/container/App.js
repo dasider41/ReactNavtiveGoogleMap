@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   BackAndroid,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import Map from '../component/Map';
 
@@ -36,18 +37,14 @@ export default class App extends React.Component{
 
   routeMapper = {
     LeftButton: (route, navigator, index, navState) =>
-      // {
-      //   if(route.index > 0) {
-      //     return <TouchableOpacity
-      //       underlayColor='transparent'
-      //       onPress={() => {if (index > 0) {navigator.pop()}}}>
-      //       <Text style={styles.navBackBtn}> Back </Text>
-      //     </TouchableOpacity>;
-      //   }else{
-      //     return null;
-      //   }
-      // },
-      { return null; },
+      {
+          return (<TouchableOpacity
+            underlayColor='transparent'
+            onPress={() => {navigator.pop()}}>
+            <Icon  style={styles.navBackBtn} name="md-menu"  />
+          </TouchableOpacity>);
+      },
+      // { return null; },
     RightButton: (route, navigator, index, navState) =>
       { return null; },
     Title: (route, navigator, index, navState) =>
@@ -105,7 +102,7 @@ export default class App extends React.Component{
 
 const styles = StyleSheet.create({
   navBar: {
-    backgroundColor: "rgba(255,255,255,0.8)",
+    backgroundColor: 'rgba(79, 142, 247,0.8)',
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
   },
@@ -114,11 +111,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     fontSize: 18,
     fontWeight: "500",
+    color: "#ddd",
   },
   navBackBtn: {
     paddingTop: 10,
     paddingLeft: 10,
-    fontSize: 18,
-    color: "#555",
+    fontSize: 28,
+    color: "#ddd",
   },
 });
