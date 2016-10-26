@@ -8,6 +8,9 @@ import {
   ToastAndroid,
 } from 'react-native';
 
+import Pie from './chart/Pie';
+import Theme from './chart/theme';
+
 class ViewText extends React.Component {
   render(){
     return (
@@ -56,11 +59,10 @@ export default class ViewDetail extends React.Component {
     super(props);
   }
 
-  getStudentStatus(total, parameter) {
-    return parameter + " (" + parseFloat(parameter > 0 ? (parameter / total) * 100 : 0).toFixed(2) + "%)";
-  }
-
   render () {
+    const height = 200;
+    const width = 500;
+
     const { school } = this.props;
     const lists = [
       {
@@ -109,6 +111,27 @@ export default class ViewDetail extends React.Component {
         detail : school.type,
       },
     ];
+
+    let Studnets = [
+      {"number": school.european, "name": 'European / Pakeha'},
+      {"number": school.asian, "name": 'Asian'},
+      {"number": school.maori, "name": 'Maori'},
+      {"number": school.pasifika, "name": 'Pasifika'},
+      {"number": school.melaa, "name": 'MELAA'},
+      {"number": school.international, "name": 'International Students'},
+      {"number": school.other, "name": 'Other'},
+    ];
+
+    Studnets.sort(function (a, b) {
+      if (a.number < b.number) {
+        return 1;
+      }
+      if (a.number > b.number) {
+        return -1;
+      }
+      return 0;
+    });
+
     return (
       <ScrollView style={styles.container}>
         {lists.map((list) => {
@@ -119,23 +142,18 @@ export default class ViewDetail extends React.Component {
 
         <View style={styles.separator} />
 
-        <Text style={styles.title}>Total School Roll : {school.total} ({100}%)</Text>
-        <Text style={styles.title}>
-          European / Pakeha : {this.getStudentStatus(school.total, school.european)},
-          Asian : {this.getStudentStatus(school.total, school.asian)},
-        </Text>
-        <Text style={styles.title}>
-          Maori : {this.getStudentStatus(school.total, school.maori)},
-          Pasifika : {this.getStudentStatus(school.total, school.pasifika)}
-        </Text>
-        <Text style={styles.title}>
-          MELAA : {this.getStudentStatus(school.total,school.melaa)},
-          Other : {this.getStudentStatus(school.total,school.other)}
-        </Text>
-        <Text style={styles.title}>
-          International Students : {this.getStudentStatus(school.total,school.international)}
-        </Text>
-        <View style={styles.space}/>
+        <Text style={styles.title}>Total School Roll : {school.total}</Text>
+        <View style={styles.chart} >
+          <Pie
+            pieWidth={150}
+            pieHeight={150}
+            colors={Theme.colors}
+            width={width}
+            height={height}
+            total={school.total}
+            data={Studnets} />
+        </View>
+        <View style={styles.bottom} />
       </ScrollView>
     );
   }
@@ -173,7 +191,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: 'rgba(79, 142, 247,0.4)',
   },
-  space:  {
-    marginVertical: 40,
-  }
+  bottom: {
+    marginVertical: 20,
+  },
+  chart: {
+    backgroundColor:'whitesmoke',
+    marginBottom: 21,
+  },
 });
