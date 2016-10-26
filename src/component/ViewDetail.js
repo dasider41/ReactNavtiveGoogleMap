@@ -82,12 +82,12 @@ export default class ViewDetail extends React.Component {
     ];
 
     let Studnets = [
-      {"number": school.european, "name": 'European / Pakeha'},
+      {"number": school.european, "name": 'European'},
       {"number": school.asian, "name": 'Asian'},
       {"number": school.maori, "name": 'Maori'},
       {"number": school.pasifika, "name": 'Pasifika'},
       {"number": school.melaa, "name": 'MELAA'},
-      {"number": school.international, "name": 'International Students'},
+      {"number": school.international, "name": 'International'},
       {"number": school.other, "name": 'Other'},
     ];
 
