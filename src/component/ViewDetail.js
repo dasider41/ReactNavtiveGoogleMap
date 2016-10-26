@@ -7,50 +7,19 @@ import {
   TouchableHighlight,
   ToastAndroid,
 } from 'react-native';
+import Autolink from 'react-native-autolink';
 
 import Pie from './chart/Pie';
 import Theme from './chart/theme';
 
-class ViewText extends React.Component {
-  render(){
-    return (
-      <View style={styles.rows}>
-        <Text style={styles.title}>{this.props.title}</Text>
-        <Text style={styles.detail}>{this.props.name}</Text>
-      </View>
-    );
-  }
-}
-
-class ViewURL extends React.Component {
-  render(){
-    return (
-      <View style={styles.rows}>
-        <Text style={styles.title}>{this.props.title}</Text>
-        <TouchableHighlight
-          style={styles.detail}
-          underlayColor="#3C5EAE"
-          onPress={()=>
-            {ToastAndroid.show("Open URL " + this.props.url, ToastAndroid.SHORT);}}
-            >
-            <Text style={styles.link}>{this.props.url}</Text>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-}
-
 class ViewRow extends React.Component {
   render () {
-    if(this.props.title === 'Website'){
-      return(
-        <ViewURL title={this.props.title} url={this.props.name} />
-      );
-    }else{
-      return(
-        <ViewText title={this.props.title} name={this.props.name} />
-      );
-    }
+    return (
+      <View style={styles.rows}>
+        <Text style={styles.title}>{this.props.title}</Text>
+        <Autolink style={styles.detail} text={this.props.name}/>
+      </View>
+    );
   }
 }
 
