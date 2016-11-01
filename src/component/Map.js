@@ -103,6 +103,7 @@ export default class DisplaySchools extends React.Component {
               provider={this.props.provider}
               ref={ref => { this.map = ref; }}
               style={styles.map}
+              showsUserLocation = {true}
               onRegionChangeComplete={this.reDrawMarks()}
               initialRegion={this.state.region}
               >
@@ -110,9 +111,9 @@ export default class DisplaySchools extends React.Component {
               return  (
                 <MapView.Marker
                   key={school.schoolId}
-                  title={school.name}
                   onPress={ () =>
-                    {this.setState({selectedMarker: school.schoolId})}}
+                    {this.setState({selectedMarker: school.schoolId})}
+                  }
                   coordinate={getLangLati(school)}
                 >
                   <CustomMarker name={school.name} />
@@ -143,6 +144,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   map: {
+    marginTop: 54,//TODO::fix to flex value
     ...StyleSheet.absoluteFillObject,
   },
   events: {
