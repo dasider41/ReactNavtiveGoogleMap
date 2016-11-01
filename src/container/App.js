@@ -4,6 +4,7 @@ import {
   Text,
   Navigator,
   StyleSheet,
+  TextInput,
   TouchableOpacity,
   TouchableHighlight,
   BackAndroid,
@@ -29,6 +30,22 @@ class NavigationBar extends Navigator.NavigationBar {
   }
 }
 
+class SearchBar extends React.Component{
+    render(){
+      return (
+        <View style={styles.searchView}>
+          <TextInput style={styles.searchBar}
+            placeholder="Search by address or school name"
+            placeholderTextColor="#778899"
+            underlineColorAndroid="rgba(0,0,0,0)"
+            autoCorrect={false}
+          />
+          <Icon style={styles.searchIcon} name="md-search"/>
+        </View>
+      );
+    }
+}
+
 export default class App extends React.Component{
 
   configureScene(route, routeStack) {
@@ -41,7 +58,7 @@ export default class App extends React.Component{
           return (<TouchableOpacity
             underlayColor='transparent'
             onPress={() => {navigator.pop()}}>
-            <Icon  style={styles.navBackBtn} name="md-menu"  />
+            <Icon style={styles.navBackBtn} name="md-menu"/>
           </TouchableOpacity>);
       },
       // { return null; },
@@ -49,9 +66,10 @@ export default class App extends React.Component{
       { return null; },
     Title: (route, navigator, index, navState) =>
       {
-        return (
-           <Text style={styles.navTitle}>{route.title}</Text>
-        );
+        if (index > 0) {
+           return ( <Text style={styles.navTitle}>{route.title}</Text> );
+        }
+        return ( <SearchBar/> );
       },
   };
 
@@ -75,7 +93,6 @@ export default class App extends React.Component{
     return (
       <Navigator
         initialRoute={{
-          title: 'Map',
           index: 0,
           display: true,
           component: Map,
@@ -118,5 +135,27 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 28,
     color: "#ddd",
+  },
+  searchView: {
+    marginTop: 5,
+    backgroundColor: '#fff',
+    height:45,
+    flexDirection: 'row',
+    borderRadius: 3,
+  },
+  searchIcon: {
+    marginTop: 10,
+    marginRight: 15,
+    fontSize: 28,
+    color: "#778899",
+  },
+  searchBar: {
+    marginTop: 5,
+    paddingTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    fontSize: 16,
+    color: "#778899",
+    width: 350//TODO::fix to flex value
   },
 });
